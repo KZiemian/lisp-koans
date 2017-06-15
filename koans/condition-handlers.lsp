@@ -22,7 +22,7 @@ error handling code from normal operational code."
 
 
 (define-test test-conditions-derive-from-types
-    "conditions inherit from base types"
+  "conditions inherit from base types"
   (true-or-false? ___ (typep (make-condition 'minimal-error-cond)
                              'minimal-error-cond))
 
@@ -64,8 +64,8 @@ error handling code from normal operational code."
 
 
 (define-test test-handle-errors
-    "the handler case is like a case statement which can capture errors
-     and warnings, and execute appropriate forms in those conditions."
+  "the handler case is like a case statement which can capture errors
+   and warnings, and execute appropriate forms in those conditions."
   (assert-equal ___
                 (handler-case (my-divide 6 2)
                   (my-div-by-zero-error (condition) :zero-div-error)
@@ -92,35 +92,44 @@ http://www.cs.cmu.edu/Groups/AI/html/cltl/clm/node312.html"
 ; they have a default form (:initform).  They also both provide reader functions
 
 (define-condition logline-parse-error (error)
-  ((original-line :initarg :original-line :initform "line not given" :reader original-line)
+  ((original-line :initarg :original-line :initform "line not given"
+		  :reader original-line)
    (reason :initarg :reason :initform "no-reason" :reader reason)))
 
 
 ;; This function is designed to take loglines, and report what type they are.
-;; It can also throw errors, like div-by-zero above, but the errors now carry some
-;;  additional information carried within the error itself.
+;; It can also throw errors, like div-by-zero above, but the errors
+;; now carry some additional information carried within the error itself.
 
 (defun get-logline-type (in-line)
   (if (not (typep in-line 'string))
-      ;; if the in-line isn't a string, throw a logline-parse-error, and set the :reason and :original-line
-      (error 'logline-parse-error :original-line in-line :reason :bad-type-reason))
+      ;; if the in-line isn't a string, throw a logline-parse-error,
+      ;; and set the :reason and :original-line
+      (error 'logline-parse-error :original-line in-line
+				  :reason :bad-type-reason))
   (cond
     ((equal 0 (search "TIMESTAMP" in-line)) :timestamp-logline-type)
     ((if (equal 0 (search "HTTP" in-line)) :http-logline-type))
-    ;; if we don't recognize the first token,  throw a logline-parse-error, and set the :reason and :original-line
-    (t (error 'logline-parse-error :original-line in-line :reason :unknown-token-reason))))
+    ;; if we don't recognize the first token,  throw a logline-parse-error,
+    ;; and set the :reason and :original-line
+    (t (error 'logline-parse-error :original-line in-line
+				   :reason :unknown-token-reason))))
 
 
 (define-test test-errors-have-slots
     (assert-equal ____
                   (handler-case (get-logline-type "TIMESTAMP y13m01d03")
-                    (logline-parse-error (condition) (list (reason condition) (original-line condition)))))
-    (assert-equal ____
-                  (handler-case (get-logline-type "HTTP access 128.0.0.100")
-                    (logline-parse-error (condition) (list (reason condition) (original-line condition)))))
-    (assert-equal ____
-                  (handler-case (get-logline-type "bogus logline")
-                    (logline-parse-error (condition) (list (reason condition) (original-line condition)))))
-    (assert-equal ____
-                  (handler-case (get-logline-type 5555)
-                    (logline-parse-error (condition) (list (reason condition) (original-line condition))))))
+                    (logline-parse-error (condition)
+		      (list (reason condition) (original-line condition)))))
+  (assert-equal ____
+		(handler-case (get-logline-type "HTTP access 128.0.0.100")
+		  (logline-parse-error (condition)
+		    (list (reason condition) (original-line condition)))))
+  (assert-equal ____
+		(handler-case (get-logline-type "bogus logline")
+		  (logline-parse-error (condition)
+		    (list (reason condition) (original-line condition)))))
+  (assert-equal ____
+		(handler-case (get-logline-type 5555)
+		  (logline-parse-error (condition)
+		    (list (reason condition) (original-line condition))))))

@@ -24,7 +24,7 @@
 (defmacro repeat-2 (f) (list 'progn f f))
 
 (define-test test-macro-expands
-    "assert-expands checks the expanded macro form against expectation."
+  "assert-expands checks the expanded macro form against expectation."
   (assert-expands
    '(progn (do-something arg1 arg2) (do-something arg1 arg2))
    (repeat-2 (do-something arg1 arg2)))
@@ -38,10 +38,11 @@
 
 
 (define-test test-backtick-form
-    "backtick (`) form is much like single-quote (') form, except that subforms
-     preceded by a comma (,) are evaluated, rather than left as literals"
+  "backtick (`) form is much like single-quote (') form, except that subforms
+   preceded by a comma (,) are evaluated, rather than left as literals"
   (let ((num 5)
         (word 'dolphin))
+
     (true-or-false? ___  (equal '(1 3 5) `(1 3 5)))
     (true-or-false? ___  (equal '(1 3 5) `(1 3 num)))
     (assert-equal ____ `(1 3 ,num))
@@ -49,17 +50,20 @@
 
 
 (define-test test-at-form
-    "The at form, (@) in the backtick context splices a list variables into
-     the form."
-    (let ((axis '(x y z)))
-      (assert-equal '(x y z) axis)
-      (assert-equal '(the axis are (x y z)) `(the axis are ,axis))
-      (assert-equal '(the axis are x y z) `(the axis are ,@axis)))
-    (let ((coordinates '((43.15 77.6) (42.36 71.06))))
-      (assert-equal ____
-        `(the coordinates are ,coordinates))
-      (assert-equal ____
-        `(the coordinates are ,@coordinates))))
+  "The at form, (@) in the backtick context splices a list variables into
+   the form."
+  (let ((axis '(x y z)))
+
+    (assert-equal '(x y z) axis)
+    (assert-equal '(the axis are (x y z)) `(the axis are ,axis))
+    (assert-equal '(the axis are x y z) `(the axis are ,@axis)))
+
+  (let ((coordinates '((43.15 77.6) (42.36 71.06))))
+
+    (assert-equal ____
+		  `(the coordinates are ,coordinates))
+    (assert-equal ____
+		  `(the coordinates are ,@coordinates))))
 
 
 ;; ---- On Gensym: based on ideas from common lisp cookbook
@@ -69,16 +73,18 @@
   `(progn (setf ,sym1 ,val) (setf ,sym2 ,val)))
 
 (define-test test-no-gensym
-    "macro expansions may introduce difficult to see
-     interactions"
+  "macro expansions may introduce difficult to see
+   interactions"
   (let ((x 0)
         (y 0))
+
     (double-setf-BAD x y 10)
     (assert-equal x 10)
     (assert-equal y 10))
 
   (let ((x 0)
         (y 0))
+
     (double-setf-BAD x y (+ x 100))
     (assert-equal x ____)
     (assert-equal y ____)))
@@ -86,20 +92,27 @@
 ;; sets sym1 and sym2 to val
 (defmacro double-setf-SAFER (sym1 sym2 val)
   (let ((new-fresh-symbol (gensym)))
+
     `(let ((,new-fresh-symbol ,val))
-       (progn (setf ,sym1 ,new-fresh-symbol) (setf ,sym2 ,new-fresh-symbol)))))
+
+       (progn (setf ,sym1 ,new-fresh-symbol)
+	      (setf ,sym2 ,new-fresh-symbol)))))
 
 (define-test test-with-gensym
-    "gensym creates a new symbol."
+  "gensym creates a new symbol."
   (let ((x 0)
         (y 0))
+
     (double-setf-SAFER x y 10)
+
     (assert-equal x 10)
     (assert-equal y 10))
 
   (let ((x 0)
         (y 0))
+
     (double-setf-SAFER x y (+ x 100))
+
     (assert-equal x ____)
     (assert-equal y ____)))
 
@@ -109,8 +122,10 @@
 (defvar *log* nil)
 
 (defmacro log-form (form)
-  "records the body form to the list *log* and then evalues the body normally"
+  "records the body form to the list *log* and then evalues the body
+   normally"
   `(let ((retval ,form))
+
      (push ',form *log*)
      retval))
 

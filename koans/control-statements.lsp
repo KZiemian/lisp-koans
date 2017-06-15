@@ -29,6 +29,7 @@
           (result-2 nil)
           (when-nums nil)
           (unless-nums nil))
+
       (dolist (x '(1 2 3 4 5 6 7 8 9 10))
         (when (> x 5)
           (setf result-1 x)
@@ -36,6 +37,7 @@
         (unless (> x 5)
           (setf result-2 x)
           (push x unless-nums)))
+
       (assert-equal result-1 ___)
       (assert-equal result-2 ___)
       (assert-equal when-nums ___)
@@ -43,7 +45,7 @@
 
 
 (define-test test-and-short-circuits
-    "and only evaluates forms until one evaluates to nil"
+  "and only evaluates forms until one evaluates to nil"
   (assert-equal
    ____
    (let ((x 0))
@@ -56,7 +58,7 @@
 
 
 (define-test test-or-also-short-circuits
-    "or only evaluates until one argument evaluates to non-nil"
+  "or only evaluates until one argument evaluates to non-nil"
   (assert-equal
    ____
    (let ((x 0))

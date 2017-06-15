@@ -19,19 +19,19 @@
   (+ a b))
 
 (define-test test-call-a-function
-    "DEFUN defines global functions"
+  "DEFUN defines global functions"
   (assert-equal ___ (some-named-function 7 11)))
 
 
 (define-test test-shadow-a-function
-    "Local functions are defined with FLET or LABELS.  One major difference
-     between the two is that local functions defined with LABELS may refer
-     to themselves, whereas local functions defined with FLET may not."
-  
-   "flet binds a function to a name within a lexical environment"
-   (flet ((some-named-function (a b) (* a b)))
-     (assert-equal ___ (some-named-function 7 11)))
-   (assert-equal ___  (some-named-function 7 11)))
+  "Local functions are defined with FLET or LABELS.  One major difference
+   between the two is that local functions defined with LABELS may refer
+   to themselves, whereas local functions defined with FLET may not."
+
+  "flet binds a function to a name within a lexical environment"
+  (flet ((some-named-function (a b) (* a b)))
+    (assert-equal ___ (some-named-function 7 11)))
+  (assert-equal ___  (some-named-function 7 11)))
 
 
 ; borrowed from Common Lisp The Language chapter 5.2.2
@@ -53,12 +53,12 @@
   (list a a? b b?))
 
 (define-test test-optional-parameters-with-indication
-   "Common Lisp optional params may bind a symbol which indicate whether the
-    value was provided or defaulted.  Each optional parameter binding has the
-    form (var default-form supplied-p)."
-   (assert-equal (func-with-opt-params-and-indication :test-1 :test-2) ___)
-   (assert-equal (func-with-opt-params-and-indication :test-1) ___)
-   (assert-equal (func-with-opt-params-and-indication) ___))
+  "Common Lisp optional params may bind a symbol which indicate whether the
+   value was provided or defaulted.  Each optional parameter binding has the
+   form (var default-form supplied-p)."
+  (assert-equal (func-with-opt-params-and-indication :test-1 :test-2) ___)
+  (assert-equal (func-with-opt-params-and-indication :test-1) ___)
+  (assert-equal (func-with-opt-params-and-indication) ___))
 
 
 ;; ----
@@ -68,11 +68,11 @@
   x)
 
 (define-test test-func-with-rest-params
-  "With &rest, the remaining params, are handed in as a list.  Remaining
+  "With &rest, the remaining params, are handed in as a list. Remaining
    arguments (possibly none) are collected into a list."
   (assert-equal (func-with-rest-params) ___)
   (assert-equal (func-with-rest-params 1) ___)
-   (assert-equal (func-with-rest-params 1 :two 333) ___))
+  (assert-equal (func-with-rest-params 1 :two 333) ___))
 
 
 ;; ----
@@ -94,13 +94,13 @@
   (list a a? b b?))
 
 (define-test test-key-params-can-have-defaults
-    "key parameters can have defaults also"
-   (assert-equal (func-key-params-can-have-defaults) ____)
-   (assert-equal (func-key-params-can-have-defaults :a 3 :b 4) ___)
-   (assert-equal (func-key-params-can-have-defaults :a 11 :b 22) ___)
-   (assert-equal (func-key-params-can-have-defaults :b 22) ___)
-   ; order is not important
-   (assert-equal (func-key-params-can-have-defaults :b 22 :a 0) ___))
+  "key parameters can have defaults also"
+  (assert-equal (func-key-params-can-have-defaults) ____)
+  (assert-equal (func-key-params-can-have-defaults :a 3 :b 4) ___)
+  (assert-equal (func-key-params-can-have-defaults :a 11 :b 22) ___)
+  (assert-equal (func-key-params-can-have-defaults :b 22) ___)
+					; order is not important
+  (assert-equal (func-key-params-can-have-defaults :b 22 :a 0) ___))
 
 
 ;; ----
@@ -108,14 +108,14 @@
 
 ;; borrowed from common lisp the language 5.2.2
 (defun func-with-funky-parameters (a &rest x &key b (c a))
-   (list a b c x))
+  (list a b c x))
 
 (define-test test-many-kinds-params
-    "CL provides the programmer with more than enough rope to hang himself."
-   (assert-equal (func-with-funky-parameters 1) ___)
-   (assert-equal (func-with-funky-parameters 1 :b 2) ___)
-   (assert-equal (func-with-funky-parameters 1 :b 2 :c 3) ___)
-   (assert-equal (func-with-funky-parameters 1 :c 3 :b 2) ___))
+  "CL provides the programmer with more than enough rope to hang himself."
+  (assert-equal (func-with-funky-parameters 1) ___)
+  (assert-equal (func-with-funky-parameters 1 :b 2) ___)
+  (assert-equal (func-with-funky-parameters 1 :b 2 :c 3) ___)
+  (assert-equal (func-with-funky-parameters 1 :c 3 :b 2) ___))
 
 
 ;; Note that &rest parameters have to come before &key parameters.
@@ -124,13 +124,16 @@
 
 
 (define-test test-lambdas-are-nameless-functions
-    "A lambda form defines a function, but with no name.  It is possible
-     to execute that function immediately, or put it somewhere for later use."
-   (assert-equal 19 ((lambda (a b) (+ a b)) 10 9))
+  "A lambda form defines a function, but with no name.  It is possible
+   to execute that function immediately, or put it somewhere for later use."
+  (assert-equal 19 ((lambda (a b) (+ a b)) 10 9))
   (let ((my-function))
+
     (setf my-function (lambda (a b) (* a b)))
     (assert-equal ___ (funcall my-function 11 9)))
+
   (let ((list-of-functions nil))
+
     (push (lambda (a b) (+ a b)) list-of-functions)
     (push (lambda (a b) (* a b)) list-of-functions)
     (push (lambda (a b) (- a b)) list-of-functions)
@@ -148,17 +151,17 @@
   1)
 
 (define-test test-return-from-function-early
-   (assert-equal (sign-of -5.5) ___)
-   (assert-equal (sign-of 0) ___)
-   (assert-equal (sign-of ___) 1))
+    (assert-equal (sign-of -5.5) ___)
+  (assert-equal (sign-of 0) ___)
+  (assert-equal (sign-of ___) 1))
 
 
 ;; ----
 
 
-;; Lambdas create "lexical closures", meaning that the resulting function, when
-;; called, will execute in an environment wherein the lexical bindings to all
-;; referred to names still apply.
+;; Lambdas create "lexical closures", meaning that the resulting function,
+;; when called, will execute in an environment wherein the lexical bindings
+;; to all referred to names still apply.
 ;; This example from "Common Lisp The Language" Ch. 7
 
 (defun adder (x)
@@ -169,17 +172,19 @@
 (define-test test-lexical-closure-over-adder ()
   (let ((add-100 (adder 100))
         (add-500 (adder 500)))
-  "add-100 and add-500 now refer to different bindings to x"
-   (assert-equal ___ (funcall add-100 3))
-   (assert-equal ___ (funcall add-500 3))))
+
+    "add-100 and add-500 now refer to different bindings to x"
+    (assert-equal ___ (funcall add-100 3))
+    (assert-equal ___ (funcall add-500 3))))
 
 
 ;; ----
 
 
-;; The closure gives the returned function access to the bindings, not just the
-;; values.  This means that two functions which close over the same variables
-;; will always see the same values of those variables if one does a setq.
+;; The closure gives the returned function access to the bindings,
+;; not just the values. This means that two functions which close over
+;; the same variables will always see the same values of those variables
+;; if one does a setq.
 
 (defun two-funs (x)
   "Returns a list of two functions.
@@ -189,22 +194,24 @@
         (function (lambda (y) (setq x y)))))
 
 (define-test test-lexical-closure-interactions
-    "An illustration of how lexical closures may interact."
+  "An illustration of how lexical closures may interact."
   (let ((tangled-funs-1 (two-funs 1))
         (tangled-funs-2 (two-funs 2)))
-     (assert-equal (funcall (first tangled-funs-1)) ___)
-     (funcall (second tangled-funs-1) 0)
-     (assert-equal (funcall (first tangled-funs-1)) ___)
 
-     (assert-equal (funcall (first tangled-funs-2)) ___)
-     (funcall (second tangled-funs-2) 100)
-     (assert-equal (funcall (first tangled-funs-2)) ___)))
+    (assert-equal (funcall (first tangled-funs-1)) ___)
+    (funcall (second tangled-funs-1) 0)
+    (assert-equal (funcall (first tangled-funs-1)) ___)
+
+    (assert-equal (funcall (first tangled-funs-2)) ___)
+    (funcall (second tangled-funs-2) 100)
+    (assert-equal (funcall (first tangled-funs-2)) ___)))
 
 
 (define-test test-apply-function-with-apply
   "APPLY calls the function parameter on a list of all the remaining
    parameters"
   (let (f1 f2 f3)
+
     (setq f1 '+)
     (setq f2 '-)
     (setq f3 'max)
@@ -212,8 +219,8 @@
     (assert-equal ___ (apply f1 '(1 2)))
     (assert-equal ___ (apply f2 '(1 2)))
 
-    ; after the function name, the parameters are consed onto the front
-    ; of the very last parameter
+    ;; after the function name, the parameters are consed onto the front
+    ;; of the very last parameter
     (assert-equal ___ (apply f1 1 2 '(3)))
     (assert-equal ___ (apply f3 1 2 3 4 '()))))
 
@@ -222,6 +229,7 @@
   "FUNCALL calls the function parameter on a list of all the remaining
    parameters.  Remaining params do not expect a final list."
   (let (f1 f2 f3)
+
     (setq f1 '+)
     (setq f2 '-)
     (setq f3 'max)

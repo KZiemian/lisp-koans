@@ -31,7 +31,7 @@
 
 (define-test test-format-with-general-specifier
   "~a is a general specifier that translates to the print form of a
-    parameter."
+   parameter."
   (assert-equal ___ (format nil "~a" 42))
   (assert-equal ___ (format nil "~a" #\C))
   (assert-equal ___ (format nil "~a" "galaxy far far away"))

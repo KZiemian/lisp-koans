@@ -16,10 +16,10 @@
 ;; based on http://psg.com/~dlamkins/sl/chapter03-02.html
 
 (define-test test-function-name-is-first-argument
-    "In most imperative languages, the syntax of a function call has
-     the function name succeeded by a list of arguments.  In lisp,
-     the function name and arguments are all part of the same list,
-     with the function name the first element of that list."
+  "In most imperative languages, the syntax of a function call has
+   the function name succeeded by a list of arguments.  In lisp,
+   the function name and arguments are all part of the same list,
+   with the function name the first element of that list."
 
   "in these examples, the function names are +, -, and *"
   (assert-equal ___ (+ 2 3))
@@ -35,16 +35,16 @@
 
 
 (define-test test-evaluation-order
-    "Arguments to functions are evaluated before the function"
+  "Arguments to functions are evaluated before the function"
   (assert-equal ___ (* (+ 1 2) (- 13 10))))
 
 
 (define-test test-quoting-behavior
-    "Preceding a list with a quote (') will tell lisp not to evaluate a list.
-     The quote special form suppresses normal evaluation, and instead returns
-     the literal list.
-     Evaluating the form (+ 1 2) returns the number 3,
-     but evaluating the form '(+ 1 2) returns the list (+ 1 2)"
+  "Preceding a list with a quote (') will tell lisp not to evaluate a list.
+   The quote special form suppresses normal evaluation, and instead returns
+   the literal list.
+   Evaluating the form (+ 1 2) returns the number 3,
+   but evaluating the form '(+ 1 2) returns the list (+ 1 2)"
   (assert-equal ____ (+ 1 2))
   (assert-equal ____ '(+ 1 2))
   "'LISTP' is a predicate which returns true if the argument is a list"
@@ -57,5 +57,6 @@
   (assert-equal ___ (listp '(+ 1 2)))
   "equalp is an equality predicate"
   (assert-equal ___ (equalp 3 (+ 1 2)))
-  "the '(xyz ghi) syntax is syntactic sugar for the (QUOTE (xyz ghi)) function."
+  "the '(xyz ghi) syntax is syntactic sugar for the (QUOTE (xyz ghi))
+   function."
   (true-or-false? ___ (equalp '(/ 4 0) (quote (/ 4 0)))))

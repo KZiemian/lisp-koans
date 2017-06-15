@@ -19,6 +19,7 @@
 (define-test test-create-hash-table
   "make hash table with make-hash-table"
   (let ((my-hash-table))
+
     (setf my-hash-table (make-hash-table))
     (true-or-false? ___ (typep my-hash-table 'hash-table))
     (true-or-false? ___  (hash-table-p my-hash-table))
@@ -45,8 +46,8 @@
 
 
 (define-test test-hash-key-equality
-    "hash tables need to know how to tell if two keys are equivalent.
-     The programmer must be careful to know which equality predicate is right."
+  "hash tables need to know how to tell if two keys are equivalent.
+   The programmer must be careful to know which equality predicate is right."
   (let ((hash-table-eq nil)
         (hash-table-equal nil)
         (hash-table-default nil))
@@ -75,6 +76,7 @@
 (define-test test-hash-table-equality
     (let ((h1 (make-hash-table :test #'equal))
           (h2 (make-hash-table :test #'equal)))
+
       (setf (gethash "one" h1) "yat")
       (setf (gethash "one" h2) "yat")
       (setf (gethash "two" h1) "yi")
@@ -87,6 +89,7 @@
 (define-test test-changing-hash-tables
     (let ((babel-fish (make-hash-table :test #'equal))
           (expected (make-hash-table :test #'equal)))
+
       (setf (gethash "one" babel-fish) "uno")
       (setf (gethash "two" babel-fish) "dos")
       (setf (gethash "one" expected) "eins")
@@ -99,21 +102,25 @@
 
 
 (define-test test-hash-key-membership
-    "hash tables use multiple value return to tell you if the key exists"
-    (let ((prev-pres (make-hash-table :test #'equal))
-          (value-and-exists nil))
-      (setf (gethash "Obama" prev-pres) "Bush")
-      (setf (gethash "Lincoln" prev-pres) "Buchanan")
-      (setf (gethash "Washington" prev-pres) nil)
+  "hash tables use multiple value return to tell you if the key exists"
+  (let ((prev-pres (make-hash-table :test #'equal))
+	(value-and-exists nil))
 
-      (setf value-and-exists (multiple-value-list (gethash "Obama" prev-pres)))
-      (assert-equal value-and-exists '("Bush" t))
-      (setf value-and-exists (multiple-value-list (gethash "Lincoln" prev-pres)))
-      (assert-equal value-and-exists ____)
-      (setf value-and-exists (multiple-value-list (gethash "Washington" prev-pres)))
-      (assert-equal value-and-exists ____)
-      (setf value-and-exists (multiple-value-list (gethash "Franklin" prev-pres)))
-      (assert-equal value-and-exists ____)))
+    (setf (gethash "Obama" prev-pres) "Bush")
+    (setf (gethash "Lincoln" prev-pres) "Buchanan")
+    (setf (gethash "Washington" prev-pres) nil)
+
+    (setf value-and-exists (multiple-value-list (gethash "Obama" prev-pres)))
+    (assert-equal value-and-exists '("Bush" t))
+    (setf value-and-exists (multiple-value-list
+			    (gethash "Lincoln" prev-pres)))
+    (assert-equal value-and-exists ____)
+    (setf value-and-exists (multiple-value-list
+			    (gethash "Washington" prev-pres)))
+    (assert-equal value-and-exists ____)
+    (setf value-and-exists (multiple-value-list
+			    (gethash "Franklin" prev-pres)))
+    (assert-equal value-and-exists ____)))
 
 
 (define-test test-make-your-own-hash-table

@@ -21,6 +21,7 @@
 (define-test test-defclass
     (let ((car-1 (make-instance 'racecar))
           (car-2 (make-instance 'racecar)))
+
       (setf (slot-value car-1 'color) :red)
       (setf (slot-value car-1 'speed) 220)
       (setf (slot-value car-2 'color) :blue)
@@ -37,6 +38,7 @@
 
 (define-test test-clos-getters-and-setters
     (let ((ship-1 (make-instance 'spaceship)))
+
       (set-color :orange ship-1)
       (assert-equal ____ (get-color ship-1))
       (set-speed 1000 ship-1)
@@ -52,22 +54,23 @@
    (access-count :reader how-many-value-queries :initform 0)))
 
 (defmethod get-value ((object value-with-access-counter))
-           (incf (slot-value object 'access-count))
-           (slot-value object 'value))
+  (incf (slot-value object 'access-count))
+  (slot-value object 'value))
 
 (defmethod set-value (new-value (object value-with-access-counter))
-           (incf (slot-value object 'access-count))
-           (setf (slot-value object 'value) new-value))
+  (incf (slot-value object 'access-count))
+  (setf (slot-value object 'value) new-value))
 
 (define-test test-access-counter
     (let ((x (make-instance 'value-with-access-counter)))
-      ; check that no one has ever looked at the x value yet.
+
+      ;; check that no one has ever looked at the x value yet.
       (assert-equal ____ (how-many-value-queries x))
-      ; check that the default value is zero.
+      ;; check that the default value is zero.
       (assert-equal ___ (get-value x))
-      ; now that we've looked at it, there is a single access.
+      ;; now that we've looked at it, there is a single access.
       (assert-equal ___ (how-many-value-queries x))
-      ; check that we can set and read the value
+      ;; check that we can set and read the value
       (set-value 33 x)
       (assert-equal 33 (get-value x))
       (assert-equal ___ (how-many-value-queries x))))
@@ -87,6 +90,7 @@
 
 (define-test test-countdowner
     (let ((c (make-instance 'countdowner)))
+
       (assert-equal 3 (get-value c))
       (assert-equal 2 (get-value c))
       (assert-equal 1 (get-value c))
@@ -106,6 +110,7 @@
 (define-test test-inheritance
     (let ((circle-1 (make-instance 'circle))
           (shape-1 (make-instance 'shape)))
+
       (assert-equal ____ (type-of shape-1))
       (assert-equal ____ (type-of circle-1))
       (true-or-false? ____ (typep circle-1 'circle))
@@ -139,6 +144,7 @@
 (define-test test-multiple-inheritance
     (let ((my-colored-circle (make-instance 'colored-circle))
           (my-circled-color (make-instance 'circled-color)))
+
       (assert-equal ____ (get-kind my-colored-circle))
       (assert-equal ____ (get-kind my-circled-color))))
 
@@ -146,16 +152,16 @@
 (defvar *last-kind-accessor* nil)
 
 (defmethod get-kind ((object shape))
-           (setf *last-kind-accessor* :shape)
-           (slot-value object 'kind))
+  (setf *last-kind-accessor* :shape)
+  (slot-value object 'kind))
 
 (defmethod get-kind ((object circle))
-           (setf *last-kind-accessor* :circle)
-           (slot-value object 'kind))
+  (setf *last-kind-accessor* :circle)
+  (slot-value object 'kind))
 
 (defmethod get-kind ((object color))
-           (setf *last-kind-accessor* :color)
-           (slot-value object 'kind))
+  (setf *last-kind-accessor* :color)
+  (slot-value object 'kind))
 
 ;; Precedence order is similarly a depth first search for methods.
 
@@ -165,6 +171,7 @@
           (my-shape (make-instance 'shape))
           (my-circle (make-instance 'circle))
           (my-color (make-instance 'color)))
+
       (get-kind my-shape)
       (assert-equal ____ *last-kind-accessor*)
       (get-kind my-circle)
@@ -178,4 +185,3 @@
 
 
 ;; Todo: consider adding :before and :after method control instructions.
-
