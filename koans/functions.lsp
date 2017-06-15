@@ -27,7 +27,7 @@
     "Local functions are defined with FLET or LABELS.  One major difference
      between the two is that local functions defined with LABELS may refer
      to themselves, whereas local functions defined with FLET may not."
-   (assert-eq 18 (some-named-function 7 11))
+  
    "flet binds a function to a name within a lexical environment"
    (flet ((some-named-function (a b) (* a b)))
      (assert-equal ___ (some-named-function 7 11)))
@@ -35,7 +35,7 @@
 
 
 ; borrowed from Common Lisp The Language chapter 5.2.2
-(defun func-with-opt-params (&optional (a 2) (b 3) )
+(defun func-with-opt-params (&optional (a 2) (b 3))
   ; each optional parameter has a form like (var default-val)
   (list a b))
 
