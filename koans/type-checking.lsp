@@ -31,8 +31,8 @@
 
 
 (define-test test-get-type-with-type-of
-   (assert-equal ____ (type-of ()))
-   (assert-equal ____ (type-of 4/6)))
+    (assert-equal ____ (type-of ()))
+  (assert-equal ____ (type-of 4/6)))
 
 (define-test test-type-sets-may-overlap
    (true-or-false? ___  (typep () 'list))
@@ -42,49 +42,56 @@
 
 
 (define-test test-integers-can-get-really-big
-   (true-or-false? ____ (typep 12345678901234567890123456789012 'integer))
-   ;; Integers are either fixnum or bignum.
-   ;; The boundary between fixnum and bignum is given by the constant:
-   ;;   most-positive-fixnum
-   (assert-true (typep 1234567890123456789 'fixnum))
-   (assert-true (typep 12345678901234567890 'bignum))
-   (true-or-false? ___ (typep most-positive-fixnum 'fixnum))
-   (true-or-false? ___ (typep (+ 1 most-positive-fixnum) 'fixnum)))
+    (true-or-false? ____ (typep 12345678901234567890123456789012 'integer))
+  ;; Integers are either fixnum or bignum.
+  ;; The boundary between fixnum and bignum is given by the constant:
+  ;; most-positive-fixnum
+
+  (assert-true (typep 1234567890123456789 'fixnum))
+  (assert-true (typep 12345678901234567890 'bignum))
+  (true-or-false? ___ (typep most-positive-fixnum 'fixnum))
+  (true-or-false? ___ (typep (+ 1 most-positive-fixnum) 'fixnum)))
 
 
 (define-test test-lisp-type-system-is-hierarchy
-   (assert-true (typep 1 'bit))
-   (assert-true (typep 1 'integer))
-   (assert-true (typep 2 'integer))
-   (true-or-false? ____ (subtypep 'bit 'integer))
-   (true-or-false? ____ (subtypep (type-of 1) (type-of 2)))
-   (true-or-false? ____ (subtypep (type-of 2) (type-of 1))))
+    (assert-true (typep 1 'bit))
+  (assert-true (typep 1 'integer))
+  (assert-true (typep 2 'integer))
+  (true-or-false? ____ (subtypep 'bit 'integer))
+  (true-or-false? ____ (subtypep (type-of 1) (type-of 2)))
+  (true-or-false? ____ (subtypep (type-of 2) (type-of 1))))
 
 
 (define-test test-some-types-are-lists
-   (assert-true(typep (make-array 0 :element-type 'integer) '(SIMPLE-VECTOR 0)))
-   (true-or-false? ____ (typep (make-array '(3 3) :element-type 'integer) '(SIMPLE-ARRAY T (3 3)))))
+    (assert-true(typep (make-array 0 :element-type 'integer)
+		       '(SIMPLE-VECTOR 0)))
+  (true-or-false? ____ (typep (make-array '(3 3) :element-type 'integer)
+			      '(SIMPLE-ARRAY T (3 3)))))
 
 
 (define-test test-type-specifier-lists-also-have-hierarchy
-   (true-or-false? ____ (subtypep '(SIMPLE-ARRAY T (3 3)) '(SIMPLE-ARRAY T *)))
-   (true-or-false? ____ (subtypep '(vector double-float 100) '(vector * 100)))
-   (true-or-false? ____ (subtypep '(vector double-float 100) '(vector double-float *)))
-   (true-or-false? ____ (subtypep '(vector double-float 100) '(vector * *)))
-   (true-or-false? ____ (subtypep '(vector double-float 100) '(array number *)))
-   (true-or-false? ____ (subtypep '(vector double-float 100) t)))
+    (true-or-false? ____ (subtypep '(SIMPLE-ARRAY T (3 3))
+				   '(SIMPLE-ARRAY T *)))
+  (true-or-false? ____ (subtypep '(vector double-float 100)
+				 '(vector * 100)))
+  (true-or-false? ____ (subtypep '(vector double-float 100)
+				 '(vector double-float *)))
+  (true-or-false? ____ (subtypep '(vector double-float 100) '(vector * *)))
+  (true-or-false? ____ (subtypep '(vector double-float 100)
+				 '(array number *)))
+  (true-or-false? ____ (subtypep '(vector double-float 100) t)))
 
 
 (define-test test-type-coersion
-   (assert-true (typep 0 'integer))
-   (true-or-false? ___ (typep 0 'short-float))
-   (true-or-false? ___ (subtypep 'integer 'short-float))
-   (true-or-false? ___ (subtypep 'short-float 'integer))
-   (true-or-false? ___ (typep (coerce 0 'short-float) 'short-float)))
+    (assert-true (typep 0 'integer))
+  (true-or-false? ___ (typep 0 'short-float))
+  (true-or-false? ___ (subtypep 'integer 'short-float))
+  (true-or-false? ___ (subtypep 'short-float 'integer))
+  (true-or-false? ___ (typep (coerce 0 'short-float) 'short-float)))
 
 
 (define-test test-atoms-are-anything-thats-not-a-cons
-  (true-or-false? ___ (atom 4))
+    (true-or-false? ___ (atom 4))
   (true-or-false? ___ (atom '(1 2 3 4)))
   (true-or-false? ___ (atom 'some-unbound-name))
   (assert-true (typep (make-array '(4 4)) '(SIMPLE-ARRAY * *)))
@@ -92,7 +99,7 @@
 
 
 (define-test test-functionp
-    "the functionp predicate is true iff the argument is a function"
+  "the functionp predicate is true iff the argument is a function"
   (assert-true (functionp (lambda (a b c) (+ a b c))))
   (true-or-false? ___ (functionp #'make-array))
   (true-or-false? ___ (functionp '(1 2 3)))
@@ -100,8 +107,8 @@
 
 
 (define-test test-there-are-some-other-type-predicates
-  ; see http://www.cs.cmu.edu/Groups/AI/html/cltl/clm/node73.html for more.
-  (true-or-false? ___ (numberp 999))
+    ;; see http://www.cs.cmu.edu/Groups/AI/html/cltl/clm/node73.html for more.
+    (true-or-false? ___ (numberp 999))
   (true-or-false? ___ (listp '(9 9 9)))
   (true-or-false? ___ (integerp 999))
   (true-or-false? ___ (rationalp 9/99))
@@ -113,6 +120,7 @@
 
 (define-test test-guess-that-type!
     (let ((x ____))
+
       (assert-true (subtypep  x '(SIMPLE-ARRAY T (* 3 *))))
       (assert-true (subtypep  x '(SIMPLE-ARRAY T (5 * *))))
       (assert-true (subtypep  x '(SIMPLE-ARRAY ARRAY *)))
