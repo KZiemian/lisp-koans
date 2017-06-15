@@ -95,7 +95,7 @@
 
 (define-test test-key-params-can-have-defaults
   "key parameters can have defaults also"
-  (assert-equal (func-key-params-can-have-defaults) ____)
+  (assert-equal (func-key-params-can-have-defaults) ___)
   (assert-equal (func-key-params-can-have-defaults :a 3 :b 4) ___)
   (assert-equal (func-key-params-can-have-defaults :a 11 :b 22) ___)
   (assert-equal (func-key-params-can-have-defaults :b 22) ___)
